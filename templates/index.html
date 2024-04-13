@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Langps Translator</title>
+    <link href="static/css/download.css" type="text/css" rel="stylesheet"/>
+
+</head>
+<body>
+    <div id="main">
+    <h1>Langps Translator</h1>
+    <form action="/upload" method="POST">
+        <select name="target_language">
+            {% for language in languages %}
+            <option value="{{ languages[language] }}">{{ language }}</option>
+            {% endfor %}
+        </select>
+        <button id="recordButton">Traduire</button>
+        <!-- <button id="stopButton" disabled>Stop</button> -->
+        <!-- <button id="recordButton">ابدأ التسجيل</button>
+        <audio id="audioPlayback" controls></audio> -->
+        <!-- <button type="button" onclick="startRecording()">Start Recording</button>
+        <input type="hidden" id="spokenText" name="spoken_text"> -->
+        <!-- <button type="submit">Translate</button> -->
+    </form>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+<script>
+    var socket = io();
+
+    var recordButton = document.getElementById('recordButton');
+    var stopButton = document.getElementById('stopButton');
+    var mediaRecorder;
+
+    recordButton.addEventListener('click', function () {
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(function (stream) {
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.ondataavailable = function (e) {
+                    if (e.data.size > 0) { // تحقق مما إذا كانت البيانات غير فارغة
+                        socket.emit('audio_data', e.data);
+                    }
+                };
+
+                mediaRecorder.start();
+                recordButton.disabled = true;
+                stopButton.disabled = false;
+            })
+            .catch(function (err) {
+                console.log('Error: ' + err);
+            });
+    });
+
+    stopButton.addEventListener('click', function () {
+        mediaRecorder.stop();
+        recordButton.disabled = false;
+        stopButton.disabled = true;
+    });
+</script>
+    <!-- Footer -->
+		<footer id="footer">
+			<div class="icons">
+				<!-- Add your social media icons here -->
+			</div>
+			<ul class="copyright">
+				<li>&copy; 2024 T2S. All rights reserved.</li>
+				<li>Design: <a href="https://www.facebook.com/abdelbaki.najjar">ABDELBAKI</a></li>
+			</ul>
+		</footer>
+    
+</body>
+</html>

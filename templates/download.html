@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Download</title>
+        <link href="static/css/download.css" type="text/css" rel="stylesheet"/>
+
+    </head>
+    <body>
+        <div id="main">
+            <h1>Successfully Converted</h1>
+
+            <h2>Translated Text:</h2>
+            <p>{{ translated_text }}</p>
+            
+            <form>
+                <button type="button" onclick="playAudio()" id="play">Play</button>
+                <audio id="myAudio">
+                    <source src="{{ audio_file }}">
+                </audio>
+            </form>
+            <a href="/">Home</a>
+        </div>
+        <script>
+            function playAudio() {
+                var audio = document.getElementById('myAudio');
+                audio.play();
+            }
+        </script>
+    <!-- Footer -->
+		<footer id="footer">
+			<div class="icons">
+				<!-- Add your social media icons here -->
+			</div>
+			<ul class="copyright">
+				<li>&copy; 2024 T2S. All rights reserved.</li>
+				<li>Design: <a href="https://www.facebook.com/abdelbaki.najjar">ABDELBAKI</a></li>
+			</ul>
+		</footer>
+    </body>
+</html>
