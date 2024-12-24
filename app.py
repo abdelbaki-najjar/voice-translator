@@ -8,12 +8,11 @@ import requests
 app = Flask(__name__)
 
 
-UPLOAD_FOLDER = 'uploads'  # مجلد لتخزين الملفات المرفوعة
+UPLOAD_FOLDER = 'uploads' 
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
-# تعريف اللغات المدعومة
 languages = {
     "Arabe": "ar",
   "Anglais": "en",
@@ -25,7 +24,6 @@ languages = {
 }
 
 
-# دالة للتعرف على الكلام
 def recognize_speech():
     recognizer = sr.Recognizer()
 
@@ -48,7 +46,6 @@ def recognize_speech():
         return None
 
 def translate_text(text, target_language):
-    # ترجمة النص إلى اللغة المستهدفة
     translated_text = GoogleTranslator(source='auto', target=target_language).translate(text) 
      
     
@@ -76,9 +73,7 @@ def translate_text(text, target_language):
 #     except Exception as e:
 #         print("Error translating text:", e)
 #         return None
-# دالة لتحويل النص إلى كلام
 def text_to_speech(text, language):
-    # إنشاء ملف صوتي
     tts = gTTS(text, lang=language)
     temp_file_path = 'static/temp.mp3'
     tts.save(temp_file_path)
